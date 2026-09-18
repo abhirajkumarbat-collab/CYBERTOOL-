@@ -1,5 +1,7 @@
-apply(plugin = "com.android.application")
-apply(plugin = "kotlin-android")
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
 android {
     namespace = "com.cyberhub.app"
@@ -33,19 +35,16 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    
-    // Compose BOM (Guaranteed compatible versions)
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
