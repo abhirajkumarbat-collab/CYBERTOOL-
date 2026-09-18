@@ -19,14 +19,26 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+    - name: Setup Fixed Gradle 8.7
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.7'
 
-    - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace
+    - name: Locate and Build Debug APK
+      run: |
+        TARGET_FILE=$(find . -type f \( -name "settings.gradle.kts" -o -name "settings.gradle" \) | head -n 1)
+        if [ -n "$TARGET_FILE" ]; then
+          cd "$(dirname "$TARGET_FILE")"
+        fi
 
-    - name: Upload APK
+        # Force Gradle 8.7 wrapper execution
+        gradle wrapper --gradle-version 8.7
+        chmod +x gradlew
+
+        ./gradlew assembleDebug --stacktrace --no-daemon
+
+    - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: CyberTool-Debug-APK
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: "**/app/build/outputs/apk/debug/*.apk"
