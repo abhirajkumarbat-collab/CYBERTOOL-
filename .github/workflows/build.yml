@@ -1,8 +1,7 @@
-name: Build Android APK
+    - name: Build APK
+      run: gradle assembleDebug
+      working-directory: ./Aapke_Folder_Ka_Naam
 
-on:
-  push:
-    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
