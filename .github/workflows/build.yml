@@ -19,23 +19,18 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
-        gradle-version: '8.5'
+        gradle-version: '8.4'
 
     - name: Build Debug APK
       run: |
-        TARGET=$(find . -name "settings.gradle.kts" -o -name "settings.gradle" -o -name "build.gradle.kts" | head -n 1)
-        if [ -n "$TARGET" ]; then
-          cd "$(dirname "$TARGET")"
-        fi
-
-        if [ ! -f "gradle.properties" ]; then
-          echo "android.useAndroidX=true" > gradle.properties
-          echo "org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8" >> gradle.properties
-        fi
-
+        # Purani .kts files ko cleanup karke Groovy DSL build execute karein
+        rm -f settings.gradle.kts build.gradle.kts app/build.gradle.kts
         gradle assembleDebug --no-daemon --stacktrace
 
     - name: Upload APK Artifact
