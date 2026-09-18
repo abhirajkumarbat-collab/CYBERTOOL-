@@ -26,10 +26,7 @@ jobs:
 
     - name: Build Debug APK
       run: |
-        # Purani conflicting .kts files auto-remove hongi
         rm -f settings.gradle.kts build.gradle.kts app/build.gradle.kts
-        
-        # Built-in Android SDK ka upyog karke build run karein
         gradle assembleDebug --no-daemon --stacktrace
 
     - name: Upload APK Artifact
