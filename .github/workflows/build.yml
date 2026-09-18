@@ -1,4 +1,4 @@
-name: Build CyberTool APK
+name: Build CyberTool Release APK
 
 on:
   push:
@@ -24,13 +24,13 @@ jobs:
       with:
         gradle-version: '8.4'
 
-    - name: Build Debug APK
+    - name: Build Release APK
       run: |
         rm -f settings.gradle.kts build.gradle.kts app/build.gradle.kts
-        gradle assembleDebug --no-daemon --stacktrace
+        gradle assembleRelease --no-daemon --stacktrace
 
-    - name: Upload APK Artifact
+    - name: Upload Release APK Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: CyberTool-Debug-APK
-        path: "**/app/build/outputs/apk/debug/*.apk"
+        name: CyberTool-Release-APK
+        path: "**/app/build/outputs/apk/release/*.apk"
